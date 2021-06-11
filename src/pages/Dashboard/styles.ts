@@ -13,14 +13,17 @@ export const Container = styled.View`
 export const Header = styled.View`
   width: 100%;
   height: ${RFPercentage(42)}px;
+
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const UserContainer = styled.View`
   width: 100%;
+
   padding: 0 24px;
-  
+  margin-top: ${RFValue(28)}px;
+
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -34,10 +37,10 @@ export const Photo = styled.Image`
   width: ${RFValue(48)}px;
   height: ${RFValue(48)}px;
 
-  border-radius: 5;
+  border-radius: 5px;
 `;
 export const User = styled.View`
-  margin-left: 15;
+  margin-left: 15px;
 `;
 export const UserGreeting = styled.Text`
   color: ${({ theme }) => theme.colors.shape};
@@ -51,7 +54,17 @@ export const UserName = styled.Text`
 `;
 
 export const Icon = styled(Feather)`
-  color: ${ ({theme})=> theme.colors.secondary };
+  color: ${({ theme }) => theme.colors.secondary};
   font-size: ${RFValue(24)}px;
+`;
 
+export const TransactionCards = styled.ScrollView.attrs({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: { paddingLeft: 24 }
+})`
+  width: 100%;
+  position: absolute;
+
+  margin-top: ${RFPercentage(30)}px;
 `;

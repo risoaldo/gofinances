@@ -10,7 +10,8 @@ import {
   User,
   UserGreeting,
   UserName,
-  Icon
+  Icon,
+  TransactionCards
 } from './styles';
 
 export function Dashboard() {
@@ -29,7 +30,11 @@ export function Dashboard() {
         </UserContainer>
       </Header>
 
-      <TransactionCard />
+      <TransactionCards>
+        <TransactionCard />
+        <TransactionCard />
+        <TransactionCard />
+      </TransactionCards>
     </Container>
   )
 }
