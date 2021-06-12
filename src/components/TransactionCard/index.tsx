@@ -10,17 +10,30 @@ import {
   LastTransaction
 } from './styles';
 
-export function TransactionCard() {
+interface PropsCard {
+  type: 'up' | 'down' | 'total';
+  tittle: string;
+  amount: string;
+  lastTransaction: string;
+}
+
+const icon = {
+  up: "arrow-up-circle",
+  down: "arrow-down-circle",
+  total: "dollar-sign"
+}
+
+export function TransactionCard({ type, tittle, amount, lastTransaction }: PropsCard) {
   return (
-    <Container>
+    <Container type={type}>
       <Header>
-        <Tittle>Entradas</Tittle>
-        <Icon name="arrow-up-circle" />
+        <Tittle type={type} >{tittle}</Tittle>
+        <Icon name={icon[type]} type={type} />
       </Header>
 
       <Footer>
-        <Amount>R$ 15.567,00</Amount>
-        <LastTransaction>Última entrada dia 13 de abril</LastTransaction>
+        <Amount type={type} >{amount}</Amount>
+        <LastTransaction type={type} >{lastTransaction}</LastTransaction>
       </Footer>
     </Container>
   )

@@ -31,9 +31,27 @@ export function Dashboard() {
       </Header>
 
       <TransactionCards>
-        <TransactionCard />
-        <TransactionCard />
-        <TransactionCard />
+        <TransactionCard
+          type="up"
+          tittle="Entradas"
+          amount="R$ 45.787,00"
+          lastTransaction="Ultima entrada dia 13 de abril"
+        />
+
+        <TransactionCard
+          type="down"
+          tittle="Saidas"
+          amount="R$ 45.787,00"
+          lastTransaction="Ultima entrada dia 13 de abril"
+        />
+
+        <TransactionCard
+          type="total"
+          tittle="Total"
+          amount="R$ 45.787,00"
+          lastTransaction="Ultima entrada dia 13 de abril"
+        />
+
       </TransactionCards>
     </Container>
   )
