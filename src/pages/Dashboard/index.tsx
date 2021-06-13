@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { TransactionCard } from '../../components/TransactionCard';
+import { TransactionItemList, TransactionItemListProps } from '../../components/TransactionItemList';
 
 import {
   Container,
@@ -11,10 +13,51 @@ import {
   UserGreeting,
   UserName,
   Icon,
-  TransactionCards
+  TransactionCards,
+  Transactions,
+  Tittle,
+  ListTransactions
+
 } from './styles';
 
+export interface DataListProps extends TransactionItemListProps {
+  id: string;
+}
 export function Dashboard() {
+
+  const data: DataListProps[] = [
+    {
+      id: '1',
+      type: 'up',
+      tittle: "Desenvolvimento",
+      amount: "R$ 55.698,00",
+      category: {
+        name: "vendas",
+        icon: "dollar-sign"
+      },
+      date: "13/12/12"
+    }, {
+      id: '2',
+      type: 'down',
+      tittle: "Desenvolvimento",
+      amount: "R$ 55.698,00",
+      category: {
+        name: "vendas",
+        icon: "dollar-sign"
+      },
+      date: "13/12/12"
+    }, {
+      id: '3',
+      type: 'down',
+      tittle: "Desenvolvimento",
+      amount: "R$ 55.698,00",
+      category: {
+        name: "vendas",
+        icon: "dollar-sign"
+      },
+      date: "13/12/12"
+    }
+  ]
   return (
     <Container>
       <Header>
@@ -53,6 +96,18 @@ export function Dashboard() {
         />
 
       </TransactionCards>
+
+      <Transactions>
+        <Tittle>Listagens</Tittle>
+        <ListTransactions
+          data={data}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => <TransactionItemList data={item} />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 50 }}
+        />
+      </Transactions>
+
     </Container>
   )
 }
