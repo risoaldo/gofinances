@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'react-native';
 
 import { Input } from '../../components/Forms/Input';
+import { InputForm } from '../../components/Forms/InputForm';
 import { Button } from '../../components/Forms/Button';
 import { TransactionTypeButton } from '../../components/Forms/TransactionTypeButton';
 import { Header } from '../../components/Header';
@@ -16,7 +17,13 @@ import {
   Fields,
   TransactionsType
 } from './styles';
+import { useForm } from 'react-hook-form';
 
+
+interface FormData {
+  name: string;
+  amount: string;
+}
 
 export function Register() {
 
@@ -39,13 +46,38 @@ export function Register() {
     setTransactionType(type);
   }
 
+  function handleRegister(form: FormData){
+    const { name, amount } = form;
+    const data = {
+      name,
+      amount,
+      transactionType,
+      category: category.name
+    }
+    console.log(data)
+  }
+
+  const {
+    control,
+    handleSubmit,
+  } = useForm();
+
   return (
     <Container>
       <Header title="Cadastro" />
       <Form>
         <Fields>
-          <Input placeholder="Nome" />
-          <Input placeholder="Preço" />
+          <InputForm
+            name="name"
+            control={control}
+            placeholder="Nome"
+          />
+          
+          <InputForm 
+            control={control}
+            name="amount"
+            placeholder="Preço"
+          />
 
           <TransactionsType>
             <TransactionTypeButton
@@ -71,7 +103,10 @@ export function Register() {
 
         </Fields>
 
-        <Button tittle="Enviar" />
+        <Button
+          tittle="Enviar"
+          onPress={handleSubmit(handleRegister)}
+        />
       </Form>
 
       <Modal visible={categoryModalIsOpen}>
