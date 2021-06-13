@@ -5,7 +5,10 @@ export default {
     secondary: "#FF872C",
 
     success: "#12A454",
+    success_light: 'rgba(18,164,84,0.5)',
+
     attention: "#E83F5B",
+    attention_light: 'rgba(232,63,91,0.5)',
 
     shape: "#ffffff",
     tittle: "#363f5f",
@@ -18,4 +21,4 @@ export default {
     medium: "Poppins_500Medium",
     bold: "Poppins_700Bold"
   }
-} 
+}
