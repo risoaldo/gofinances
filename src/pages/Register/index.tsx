@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Input } from '../../components/Forms/Input';
 import { InputForm } from '../../components/Forms/InputForm';
 import { Button } from '../../components/Forms/Button';
 import { TransactionTypeButton } from '../../components/Forms/TransactionTypeButton';
@@ -26,13 +26,16 @@ interface FormData {
 }
 
 export function Register() {
+  const collectionKey = '@gofinances:transactions';
 
   const [category, setCategory] = useState({
     key: 'category',
-    name: 'name'
+    name: 'Categoria'
   })
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalIsOpen, setCategoryModalIsOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState('');
 
   function handleCloseSelectCategoryModal() {
     setCategoryModalIsOpen(false);
@@ -46,15 +49,39 @@ export function Register() {
     setTransactionType(type);
   }
 
-  function handleRegister(form: FormData){
+
+
+  async function handleRegister(form: FormData) {
+
+    if (!transactionType) {
+      return Alert.alert('Selecione o tipo da transação👍');
+    }
+
+    if (category.name === 'Categoria') {
+      return Alert.alert('Selecione a categoria👍');
+    }
+
     const { name, amount } = form;
+
     const data = {
       name,
       amount,
       transactionType,
       category: category.name
     }
-    console.log(data)
+
+    try {
+      if (!data) {
+        Alert.alert('não tem nada aqui👍');
+        return;
+      }
+      await AsyncStorage.setItem(collectionKey, JSON.stringify(data));
+      Alert.alert('Cadastro feito com sucesso');
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Cadastro não deu certo!👍');
+    }
+
   }
 
   const {
@@ -62,60 +89,73 @@ export function Register() {
     handleSubmit,
   } = useForm();
 
+  useEffect(() => {
+    async function loadData() {
+      const data = await AsyncStorage.getItem(collectionKey);
+      console.log('lalala', data)
+    }
+    loadData();
+  }, [])
+
   return (
-    <Container>
-      <Header title="Cadastro" />
-      <Form>
-        <Fields>
-          <InputForm
-            name="name"
-            control={control}
-            placeholder="Nome"
-          />
-          
-          <InputForm 
-            control={control}
-            name="amount"
-            placeholder="Preço"
-          />
-
-          <TransactionsType>
-            <TransactionTypeButton
-              type="up"
-              tittle="Income"
-              onPress={() => handleTransactionTypeSelect('up')}
-              isActive={transactionType === 'up'}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Container>
+        <Header title="Cadastro" />
+        <Form>
+          <Fields>
+            <InputForm
+              name="name"
+              control={control}
+              placeholder="Nome"
+              autoCapitalize="sentences"
+              autoCorrect={false}
             />
 
-            <TransactionTypeButton
-              type="down"
-              tittle="Outcome"
-              onPress={() => handleTransactionTypeSelect('down')}
-              isActive={transactionType === 'down'}
+            <InputForm
+              control={control}
+              name="amount"
+              placeholder="Preço"
+              keyboardType="numeric"
             />
 
-          </TransactionsType>
+            <TransactionsType>
+              <TransactionTypeButton
+                type="up"
+                tittle="Income"
+                onPress={() => handleTransactionTypeSelect('up')}
+                isActive={transactionType === 'up'}
+              />
 
-          <CategorySelectButton
-            title={category.name}
-            onPress={handleOpenSelectCategoryModal}
+              <TransactionTypeButton
+                type="down"
+                tittle="Outcome"
+                onPress={() => handleTransactionTypeSelect('down')}
+                isActive={transactionType === 'down'}
+              />
+
+            </TransactionsType>
+
+            <CategorySelectButton
+              title={category.name}
+              onPress={handleOpenSelectCategoryModal}
+            />
+
+          </Fields>
+
+          <Button
+            tittle="Enviar"
+            onPress={handleSubmit(handleRegister)}
           />
+        </Form>
 
-        </Fields>
-
-        <Button
-          tittle="Enviar"
-          onPress={handleSubmit(handleRegister)}
-        />
-      </Form>
-
-      <Modal visible={categoryModalIsOpen}>
-        <CategorySelect
-          category={category}
-          setCategory={setCategory}
-          closeSelectCategory={handleCloseSelectCategoryModal}
-        />
-      </Modal>
-    </Container>
+        <Modal visible={categoryModalIsOpen}>
+          <CategorySelect
+            category={category}
+            setCategory={setCategory}
+            closeSelectCategory={handleCloseSelectCategoryModal}
+          />
+        </Modal>
+      </Container>
+    </TouchableWithoutFeedback>
   )
 }

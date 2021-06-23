@@ -20,7 +20,7 @@ export const Container = styled(TouchableOpacity) <ContainerProps>`
   justify-content: center;
   align-items: center;
 
-  border-width: ${({ isActive }) => isActive ? 0 : 0.5};
+  border-width: ${({ isActive }) => isActive ? 0 : 0.5}px;
   border-style: solid;
   border-color: ${({ theme }) => theme.colors.tittle};;
   border-radius: 5px;
